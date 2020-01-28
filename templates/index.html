@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}首页{% endblock %}
+
+{% block new_css %}{% endblock %}
+
+{% block main %}
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('index') }}">首页</a></li>
+        <li class="active">项目简介</li>
+    </ol>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Edith - 财务预警系统简介
+        </div>
+        <div class="panel-body">
+            <strong>项目简介</strong><br>
+            <p style="padding-top: 10px;">
+                &emsp;&emsp;Edith - 财务预警系统，是一款基于神经网络技术的财务预警软件。<br>
+                &emsp;&emsp;在我国， 公司被ST是一种财务预警信号，应用也基于这一事实，将被ST作为企业陷入财务危机的标准。<br>
+                &emsp;&emsp;本项目中，用户需要提供企业某年的九项财务数据，具体数据可以参考<a href="../static/model_data/data_1.csv"
+                                                              download="ST预警模板.csv">模板</a>。然后能够得到对该企业三年内财务是否会被ST的预警的情况。<br>
+                &emsp;&emsp;点击<a href="{{ url_for('st_alarm') }}">这里</a>，开始体验ST预警功能。<br>
+                &emsp;&emsp;如果你想查看自己过去在本应用上的过去的预警记录，请先<a href="{{ url_for('register') }}">注册</a>或<a
+                    href="{{ url_for('login') }}">登录</a><br>
+                &emsp;&emsp;如果对于自己的账号或者登录记录有任何问题，请联系我们，管理员有权限对用户信息和预警提交信息进行管理操作。
+            </p>
+
+            <address style="padding-top: 10px">
+                <strong>联系我们</strong><br>
+                <p style="padding-top: 5px">
+                    &emsp;&emsp;<abbr title="Phone">电话:</abbr> 15000112182<br>
+                    &emsp;&emsp;<abbr title="email">邮箱:</abbr><a> petershao1996@outlook.com</a>
+                </p>
+
+            </address>
+        </div>
+    </div>
+
+{% endblock %}

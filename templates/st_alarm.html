@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}ST财务预警{% endblock %}
+
+{% block new_css %}{% endblock %}
+
+{% block main %}
+    <ol class="breadcrumb">
+        <li><a href="#">财务预警</a></li>
+        <li class="active">ST财务预警</li>
+    </ol>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">1.文件上传（格式必须为.csv，请参考<a href="../static/model_data/data_1.csv" download="ST预警模板.csv">示例模板</a>的格式）
+        </div>
+        <div class="panel-body">
+            <form class="form-inline" enctype="multipart/form-data" action="{{ url_for('st_alarm_upload') }}"
+                  method="post">
+                <div class="form-group input-group">
+                    <label for="uploadFile"></label>
+                    <input type="file" class="form-control" id="uploadFile" name="uploadFile"
+                           accept=".csv">
+                    <span class="input-group-btn"><label for="uploadFile" class="btn btn-default">选择</label>
+                        <button type="submit" class="btn btn-primary">上传并预测</button></span>
+                </div>
+                <a href="../static/model_data/data_1.csv" download="ST预警模板.csv"
+                   class="btn btn-success">示例模板下载</a>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <br>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">2.ST财务预警预测结果</div>
+        <div class="panel-body">
+            <div>
+                <label class="error-label">{{ st_alarm_error }}</label>
+                <a class="glyphicon glyphicon-refresh sign-refresh" style="padding-right: inherit"
+                   href="{{ url_for('st_alarm') }}"></a>
+            </div>
+
+            <p>三年内不会发生ST预警的可能性:{{ data0 }}%</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                     style="min-width: 2em;width: {{ data0 }}%;">
+                    {{ data0 }}%
+                </div>
+            </div>
+            <p>1年后发生ST预警的可能性:{{ data1 }}%</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                     style="min-width: 2em;width: {{ data1 }}%;">
+                    {{ data1 }}%
+                </div>
+            </div>
+            <p>2年后发生ST预警的可能性:{{ data2 }}%</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"
+                     style="min-width: 2em; width:{{ data2 }}%;">
+                    {{ data2 }}%
+                </div>
+            </div>
+            <p>3年后发生ST预警的可能性：{{ data3 }}%</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"
+                     style="min-width: 2em; width: {{ data3 }}%;">
+                    {{ data3 }}%
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {#    <div class="panel panel-default">#}
+    {#        <!-- Default panel contents -->#}
+    {#        <div class="panel-heading">Panel heading</div>#}
+    {#        <div class="panel-body">#}
+    {#            <p>...</p>#}
+    {#        </div>#}
+    {##}
+    {#        <!-- Table -->#}
+    {#        <table class="table">#}
+    {#            ...#}
+    {#        </table>#}
+    {#    </div>#}
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}我的信息{% endblock %}
+
+{% block new_css %}{% endblock %}
+
+{% block main %}
+    <ol class="breadcrumb">
+        <li><a href="#">用户</a></li>
+        <li class="active">我的信息</li>
+    </ol>
+
+    <div class="panel panel-default col-lg-8 col-md-offset-2" style="margin-top: 10px">
+        <div class="panel-body ">
+            <form action="{{ url_for('index') }}" method="post">
+
+                <div class="form-container" style="margin-top: 10px">
+
+
+                    <div class="form-group">
+                        <label style="padding-bottom: 10px">用户名：</label>
+                        <input readOnly="true" type="text" class="form-control user_input" placeholder="用户名"
+                               name="username"
+                               value="{{ user.username }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="padding-bottom: 10px">电话：</label>
+                        <input readOnly="true" type="text" class="form-control user_input" placeholder="电话" name="phone"
+                               value="{{ user.phone }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="padding-bottom: 10px">密码：</label>
+                        <input readOnly="true" type="password" class="form-control user_input" placeholder="密码"
+                               name="password"
+                               value="{{ user.password }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="padding-bottom: 10px">权限：</label>
+                        <input readOnly="true" type="text" class="form-control user_input" placeholder="权限"
+                               name="authority"
+                                {% if session.get('user_authority')==0 %}
+                               value="用户"
+                                {% else %}
+                               value="管理员"
+                                {% endif %}
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 30px;height: 45px">
+                            返回首页
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

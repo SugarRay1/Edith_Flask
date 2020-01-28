@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}ST财务鉴别{% endblock %}
+
+{% block new_css %}{% endblock %}
+
+{% block main %}
+    <ol class="breadcrumb">
+        <li><a href="#">ST财务预警</a></li>
+        <li class="active">ST财务鉴别</li>
+    </ol>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">1.文件上传（格式必须为.csv或者.xls/.xlsx）</div>
+        <div class="panel-body">
+            <form class="form-inline" enctype="multipart/form-data" action="{{ url_for('st_distinguish_upload') }}" method="post">
+                <div class="form-group input-group">
+                    <label for="uploadFile"></label>
+                    <input type="file" class="form-control" id="uploadFile" name="uploadFile"
+                           accept=".csv, .xls,.xlsx,.txt">
+                    <span class="input-group-btn"><label for="uploadFile" class="btn btn-default">选择</label>
+                        <button type="submit" class="btn btn-primary">上传并鉴别</button></span>
+                </div>
+                <a href="../data/model_data/model_data.csv" download="模板.csv"
+                   class="btn btn-default">示例格式下载</a>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <br>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">2.ST财务鉴别结果</div>
+        <div class="panel-body">
+            <p>模型1预测结果:{{ data1 }}%</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                     style="min-width: 2em;width: {{ data1 }}%;">
+                    {{ data1 }}%
+                </div>
+            </div>
+            <p>模型2预测结果:{{ data2 }}%</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"
+                     style="min-width: 2em; {{ data2 }}%;">
+                    {{ data2 }}%
+                </div>
+            </div>
+            <p>模型3预测结果：{{ data3 }}%</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"
+                     style="min-width: 2em; width: {{ data3 }}%;">
+                    {{ data3 }}%
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

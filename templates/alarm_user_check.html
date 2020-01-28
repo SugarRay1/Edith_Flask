@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}用户管理{% endblock %}
+
+{% block new_css %}
+{% endblock %}
+
+{% block main %}
+    <ol class="breadcrumb">
+        <li><a href="#">用户</a></li>
+        <li class="active">我的预警记录</li>
+    </ol>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="alarm-Table">
+
+            <tr class="active">
+                <th>预警 id</th>
+                <th>预警类型</th>
+                <th>提交时间</th>
+                <th>提交用户 id</th>
+                <th>上传文件</th>
+                <th>预警结果</th>
+
+                {% for alarm in alarms %}
+                    <tr>
+                    <td>{{ alarm.id }}</td>
+                    <td>{{ alarm.type }}</td>
+                    <td>{{ alarm.create_time }}</td>
+                    <td>{{ alarm.author_id }}</td>
+                    <td>
+                        <a href="../static/user_data/{{ alarm.author_id }}_{{ alarm.filename }}">{{ alarm.filename }}</a>
+                    </td>
+                    <td>
+                        <button type="button" name="alarm_result" class="btn btn-primary btn-select" data-toggle="modal"
+                                data-target="#alarmManageModal"
+                                onclick="transmit({{ alarm.result_1 }},{{ alarm.result_2 }},{{ alarm.result_3 }},{{ alarm.result_4 }})">
+                            查看
+                        </button>
+                    </td>
+                {% endfor %}
+
+        </table>
+    </div>
+
+    <!-- 查看模态框（Modal） -->
+    <div class="modal fade" id="alarmManageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">查看预警结果</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="p_result_1"></p>
+                    <div class="progress">
+                        <div id="alarm_result_1" class="progress-bar" role="progressbar" aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                             style="min-width: 2em;">
+
+                        </div>
+                    </div>
+                    <p id="p_result_2"></p>
+                    <div class="progress">
+                        <div id="alarm_result_2" class="progress-bar" role="progressbar" aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                             style="min-width: 2em;">
+
+                        </div>
+                    </div>
+                    <p id="p_result_3"></p>
+                    <div class="progress">
+                        <div id="alarm_result_3" class="progress-bar" role="progressbar" aria-valuenow="2"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                             style="min-width: 2em;">
+
+                        </div>
+                    </div>
+                    <p id="p_result_4"></p>
+                    <div class="progress">
+                        <div id="alarm_result_4" class="progress-bar" role="progressbar" aria-valuenow="2"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                             style="min-width: 2em;">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+{% endblock %}
+
+{% block datatable_script %}
+    <script>
+        function transmit(result_1, result_2, result_3, result_4) {
+            $('#alarm_result_1').width(result_1 + '%');
+            $('#alarm_result_1').text(result_1);
+            $('#p_result_1').text("三年内不会发生ST预警的可能性:" + result_1 + "%");
+
+            $('#alarm_result_2').width(result_2 + '%');
+            $('#alarm_result_2').text(result_2);
+            $('#p_result_2').text("1年后发生ST预警的可能性:" + result_2 + "%");
+
+            $('#alarm_result_3').width(result_3 + '%');
+            $('#alarm_result_3').text(result_3);
+            $('#p_result_3').text("2年后发生ST预警的可能性:" + result_3 + "%");
+
+            $('#alarm_result_4').width(result_4 + '%');
+            $('#alarm_result_4').text(result_4);
+            $('#p_result_4').text("3年后发生ST预警的可能性:" + result_4 + "%");
+
+        }
+
+
+    </script>
+
+
+
+{% endblock %}

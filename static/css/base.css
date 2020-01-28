@@ -1,0 +1,39 @@
+
+.logo {
+    height: 50px;
+    width: 50px;
+}
+
+body {
+    background: #f3f3f3;
+}
+
+.front_bar {
+    width: 730px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.main {
+    background: #fff;
+    width: 730px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 10px;
+}
+
+
+.page-title {
+    text-align: center;
+}
+
+label.error-label {
+    color: red;
+    padding-bottom: 10px;
+}
+
+a.sign-refresh {
+    color: grey;
+    float: right;
+    text-decoration: none;
+}

@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}用户管理{% endblock %}
+
+{% block new_css %}
+
+    <script>
+        function delete_ok() {
+            var id = $('#delete_id').val();
+            $.ajax({
+                type: "post",
+                url: "delete_user/" + id,
+                success: function () {
+                    {#alert('success');#}
+                    {#$('#deleteModal').modal('hide');#}
+                    window.location.reload();
+                },
+                error: function () {
+                    alert('delete error');
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+{% block main %}
+    <ol class="breadcrumb">
+        <li><a href="#">管理</a></li>
+        <li class="active">管理用户</li>
+    </ol>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="user-Table">
+
+            <tr class="active">
+                <th>用户 id</th>
+                <th>用户名</th>
+                <th>电话</th>
+                <th>密码</th>
+                <th>权限</th>
+                <th>操作</th>
+                {% for user in users %}
+                    <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>{{ user.authority }}</td>
+                    <td>
+                        {% if  user.authority==0 %}
+                            <button type="button" name="modify" class="btn btn-warning btn-select" data-toggle="modal"
+                                    data-target="#updateModal">
+                                修改
+                            </button>
+                            <button type="button" name="delete" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#deleteModal">
+                                删除
+                            </button>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+
+        </table>
+    </div>
+
+    <!-- 修改模态框（Modal） -->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">修改用户信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('update_user') }}" method="post">
+                        <div class="form-container" style="margin-top: 10px">
+
+                            <input hidden="hidden" id="update_id" name="update_id">
+                            <div class="form-group">
+                                <label style="padding-bottom: 10px">用户名：</label>
+                                <input readOnly="true" id="update_username" type="text" class="form-control user_input"
+                                       placeholder="用户名"
+                                       name="update_username" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label style="padding-bottom: 10px">电话：</label>
+                                <input id="update_phone" type="text" class="form-control user_input" placeholder="电话"
+                                       name="update_phone" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label style="padding-bottom: 10px">密码：</label>
+                                <input id="update_password" type="password" class="form-control user_input"
+                                       placeholder="密码"
+                                       name="update_password" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label style="padding-bottom: 10px">权限：</label>
+                                <input readOnly="true" type="text" class="form-control user_input" placeholder="权限"
+                                       name="authority"
+                                        {% if session.get('user_authority')==0 %}
+                                       value="管理员"
+                                        {% else %}
+                                       value="用户"
+                                        {% endif %}
+                                       required>
+                            </div>
+
+
+                        </div>
+
+                        <div class="modal-footer" style="margin-top: 20px">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">提交修改</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!-- 删除模态框（Modal） -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">删除用户信息</h4>
+                </div>
+                <div class="modal-body">是否确认删除用户信息?
+                    <input hidden="hidden" id="delete_id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="delete_ok()">确认删除</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+{% endblock %}
+
+{% block datatable_script %}
+    <script>
+        $('#user-Table tbody').on("click", 'button[name="modify"]', function () {
+            $('#update_id').val($(this).closest('tr').find('td:eq(0)').text());
+            $('#update_username').val($(this).closest('tr').find('td:eq(1)').text());
+            $('#update_phone').val($(this).closest('tr').find('td:eq(2)').text());
+            $('#update_password').val($(this).closest('tr').find('td:eq(3)').text());
+        });
+
+        $('#user-Table tbody').on("click", 'button[name="delete"]', function () {
+            $('#delete_id').val($(this).closest('tr').find('td:eq(0)').text());
+        });
+
+
+    </script>
+
+
+
+{% endblock %}
